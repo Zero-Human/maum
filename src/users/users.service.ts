@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateUser } from './dto/create-user.dto';
 import { SignInInput } from './dto/signin.dto';
 import { UpdateUser } from './dto/update-user.dto';
@@ -54,5 +54,12 @@ export class UsersService {
     }
     await this.userRepository.update(userId, updateUser);
     return await this.userRepository.findOne({ where: { id: userId } });
+  }
+  async deleteUser(userId: number): Promise<boolean> {
+    const result: DeleteResult = await this.userRepository.delete(userId);
+    if (result.affected) {
+      return true;
+    }
+    return false;
   }
 }

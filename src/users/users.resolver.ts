@@ -32,4 +32,9 @@ export class UsersResolver {
   ): Promise<UserOutput> {
     return await this.userService.updateUser(userId, updateUser);
   }
+  @Mutation(() => Boolean)
+  @UseGuards(GqlAuthGuard)
+  async deleteUser(@UserId() userId: number): Promise<boolean> {
+    return await this.userService.deleteUser(userId);
+  }
 }
