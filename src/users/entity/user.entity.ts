@@ -21,7 +21,7 @@ export class User {
   @IsEmail()
   email: string;
 
-  @Column({ select: false })
+  @Column()
   @Field(() => String)
   @IsString()
   @MinLength(6)
