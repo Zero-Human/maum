@@ -40,6 +40,8 @@ import { UsersModule } from './users/users.module';
         DB_SCHEMA: Joi.string().required(),
         SYNCHRONIZE: Joi.boolean().required(),
         LOGGING: Joi.boolean().required(),
+        SECRET_KEY: Joi.string().required(),
+        EXPIRES_IN: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({
