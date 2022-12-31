@@ -17,7 +17,7 @@ export class PostsService {
     return await this.postRepository.save(post);
   }
 
-  async readPost(postId: number): Promise<Posts> {
+  async findPost(postId: number): Promise<Posts> {
     const post: Posts = await this.postRepository.findOne({
       where: { id: postId },
       relations: {
@@ -56,5 +56,14 @@ export class PostsService {
       return true;
     }
     return false;
+  }
+
+  async findPostsByUser(user: User): Promise<Posts[]> {
+    return await this.postRepository.find({
+      where: { author: user },
+      relations: {
+        author: true,
+      },
+    });
   }
 }

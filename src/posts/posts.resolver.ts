@@ -12,11 +12,16 @@ export class PostsResolver {
   constructor(private readonly postService: PostsService) {}
   @Query(() => Posts)
   async readPost(@Args('postId') postId: number): Promise<Posts> {
-    return await this.postService.readPost(postId);
+    return await this.postService.findPost(postId);
   }
   @Query(() => [Posts])
   async searchPosts(@Args('postTitle') postTitle: string): Promise<Posts[]> {
     return await this.postService.searchPosts(postTitle);
+  }
+  @Query(() => [Posts])
+  @UseGuards(GqlAuthGuard)
+  async readMyPosts(@AuthUser() user: User): Promise<Posts[]> {
+    return await this.postService.findPostsByUser(user);
   }
 
   @Mutation(() => Posts)
