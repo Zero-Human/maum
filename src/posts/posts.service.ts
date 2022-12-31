@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entity/user.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { CreatePost } from './dto/create-post.dto';
 import { Posts } from './entity/posts.entity';
 
@@ -26,5 +26,15 @@ export class PostsService {
       //TODO: error 발생
     }
     return post;
+  }
+  async searchPosts(postTitle: string): Promise<Posts[]> {
+    return await this.postRepository.find({
+      where: {
+        title: ILike(`%${postTitle}%`),
+      },
+      relations: {
+        author: true,
+      },
+    });
   }
 }

@@ -14,6 +14,10 @@ export class PostsResolver {
   async readPost(@Args('postId') postId: number): Promise<Posts> {
     return await this.postService.readPost(postId);
   }
+  @Query(() => [Posts])
+  async searchPosts(@Args('postTitle') postTitle: string): Promise<Posts[]> {
+    return await this.postService.searchPosts(postTitle);
+  }
 
   @Mutation(() => Posts)
   @UseGuards(GqlAuthGuard)
