@@ -10,9 +10,9 @@ import { PostsService } from './posts.service';
 @Resolver()
 export class PostsResolver {
   constructor(private readonly postService: PostsService) {}
-  @Query(() => Boolean)
-  test(): boolean {
-    return true;
+  @Query(() => Posts)
+  async readPost(@Args('postId') postId: number): Promise<Posts> {
+    return await this.postService.readPost(postId);
   }
 
   @Mutation(() => Posts)

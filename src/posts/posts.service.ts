@@ -15,4 +15,16 @@ export class PostsService {
     post.author = user;
     return await this.postRepository.save(post);
   }
+  async readPost(postId: number): Promise<Posts> {
+    const post: Posts = await this.postRepository.findOne({
+      where: { id: postId },
+      relations: {
+        author: true,
+      },
+    });
+    if (!post) {
+      //TODO: error 발생
+    }
+    return post;
+  }
 }

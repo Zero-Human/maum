@@ -1,5 +1,6 @@
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
+import { UserOutput } from 'src/users/dto/user.dto';
 import { User } from 'src/users/entity/user.entity';
 import {
   Column,
@@ -28,7 +29,7 @@ export class Posts {
   content: string;
 
   @ManyToOne(() => User, (user) => user.posts, { nullable: false })
-  @Field(() => User)
+  @Field(() => UserOutput)
   author: User;
 
   @CreateDateColumn({ name: 'created_at' })
