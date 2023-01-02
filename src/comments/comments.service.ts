@@ -39,7 +39,7 @@ export class CommentsService {
       },
     });
     if (!parentComment) {
-      throw new BadRequestException('commentId의 값이 잘못되었습니다.');
+      throw new BadRequestException(['commentId의 값이 잘못되었습니다.']);
     }
     const comment: Comments = this.commentRepository.create({
       content: createRecomment.content,

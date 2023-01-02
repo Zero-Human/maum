@@ -25,7 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       where: { id },
     });
     if (!user) {
-      throw new UnauthorizedException('다시 로그인해주세요');
+      throw new UnauthorizedException(['다시 로그인해주세요']);
     }
     return user;
   }

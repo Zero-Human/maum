@@ -34,7 +34,7 @@ export class PostsService {
       },
     });
     if (!post) {
-      throw new BadRequestException('Post Id 값이 잘못되었습니다.');
+      throw new BadRequestException(['Post Id 값이 잘못되었습니다.']);
     }
     return post;
   }
@@ -65,7 +65,7 @@ export class PostsService {
       },
     });
     if (!post) {
-      throw new BadRequestException('Post Id 값이 잘못되었습니다.');
+      throw new BadRequestException(['Post Id 값이 잘못되었습니다.']);
     }
     const result: DeleteResult = await this.postRepository.delete(postId);
     if (result.affected) {
