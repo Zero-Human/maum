@@ -5,7 +5,7 @@ import { GqlAuthGuard } from 'src/common/guard/grapql.guard';
 import { User } from 'src/users/entity/user.entity';
 import { CommentsService } from './comments.service';
 import { CreateComment } from './dto/create-comment.dto';
-import { CreateRecomment } from './dto/create-recomment.dto';
+import { UpdateComment } from './dto/update-comment.dto';
 import { Comments } from './entity/comments.entity';
 
 @Resolver()
@@ -23,10 +23,19 @@ export class CommentsResolver {
 
   @Mutation(() => Comments)
   @UseGuards(GqlAuthGuard)
-  async createRecomment(
-    @Args('input') createRecomment: CreateRecomment,
+  async updateComment(
+    @Args('input') updateComment: UpdateComment,
     @AuthUser() user: User,
   ): Promise<Comments> {
-    return await this.commentService.createRecomment(createRecomment, user);
+    return await this.commentService.updateComment(updateComment, user);
+  }
+
+  @Mutation(() => Boolean)
+  @UseGuards(GqlAuthGuard)
+  async deleteComment(
+    @Args('commentId') CommentId: number,
+    @AuthUser() user: User,
+  ): Promise<boolean> {
+    return await this.commentService.deleteComment(CommentId, user);
   }
 }

@@ -30,7 +30,7 @@ export const winstonLogger = WinstonModule.createLogger({
           : winston.format.combine(
               winston.format.colorize(),
               winston.format.timestamp(),
-              utilities.format.nestLike('shopping-mall', {
+              utilities.format.nestLike('maum', {
                 prettyPrint: true, // nest에서 제공하는 옵션. 로그 가독성을 높여줌
               }),
             ),

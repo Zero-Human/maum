@@ -10,6 +10,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @InputType({ isAbstract: true })
@@ -25,7 +26,7 @@ export class Comments {
   @IsString()
   content: string;
 
-  @ManyToOne(() => User, { nullable: false })
+  @ManyToOne(() => User, { nullable: false, onDelete: 'CASCADE' })
   @Field(() => UserOutput)
   author: User;
 
@@ -33,11 +34,19 @@ export class Comments {
   @Field(() => Date)
   createdAt: Date;
 
-  @ManyToOne(() => Posts, (post) => post.comments)
+  @UpdateDateColumn({ name: 'updated_at' })
+  @Field(() => Date, { nullable: true })
+  updatedAt: Date;
+
+  @ManyToOne(() => Posts, (post) => post.comments, {
+    onDelete: 'CASCADE',
+  })
   @Field(() => Posts)
   post: Posts;
 
-  @ManyToOne(() => Comments, (comments) => comments.childComments)
+  @ManyToOne(() => Comments, (comments) => comments.childComments, {
+    onDelete: 'CASCADE',
+  })
   @Field(() => Comments, { nullable: true })
   parentComment: Comments;
 

@@ -3,11 +3,8 @@ import { IsNumber } from 'class-validator';
 import { Comments } from '../entity/comments.entity';
 
 @InputType()
-export class CreateRecomment extends PickType(Comments, ['content']) {
-  @Field(() => Int)
+export class UpdateComment extends PickType(Comments, ['content']) {
+  @Field(() => Int, { nullable: true })
   @IsNumber()
-  postId: number;
-  @Field(() => Int)
-  @IsNumber()
-  commentId: number;
+  commentId?: number;
 }

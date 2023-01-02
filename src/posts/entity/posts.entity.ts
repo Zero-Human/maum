@@ -10,6 +10,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @InputType({ isAbstract: true })
@@ -30,9 +31,16 @@ export class Posts {
   @IsString()
   content: string;
 
-  @ManyToOne(() => User, (user) => user.posts, { nullable: false })
+  @ManyToOne(() => User, (user) => user.posts, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   @Field(() => UserOutput)
   author: User;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  @Field(() => Date, { nullable: true })
+  updatedAt: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   @Field(() => Date)

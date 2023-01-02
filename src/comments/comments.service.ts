@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Posts } from 'src/posts/entity/posts.entity';
 import { PostsService } from 'src/posts/posts.service';
 import { User } from 'src/users/entity/user.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateComment } from './dto/create-comment.dto';
-import { CreateRecomment } from './dto/create-recomment.dto';
+import { UpdateComment } from './dto/update-comment.dto';
 import { Comments } from './entity/comments.entity';
 
 @Injectable()
@@ -23,30 +23,58 @@ export class CommentsService {
     const comment: Comments = this.commentRepository.create({
       content: createComment.content,
     });
+    if (createComment?.parentCommentId) {
+      const parentComment: Comments = await this.commentRepository.findOne({
+        where: {
+          id: createComment.parentCommentId,
+        },
+      });
+      if (!parentComment) {
+        throw new BadRequestException(['commentId의 값이 잘못되었습니다.']);
+      }
+      comment.parentComment = parentComment;
+    }
     comment.post = post;
     comment.author = user;
+
     return await this.commentRepository.save(comment);
   }
 
-  async createRecomment(
-    createRecomment: CreateRecomment,
+  async updateComment(
+    updateComment: UpdateComment,
     user: User,
   ): Promise<Comments> {
-    const post: Posts = await this.postService.findPost(createRecomment.postId);
-    const parentComment: Comments = await this.commentRepository.findOne({
+    const comment: Comments = await this.commentRepository.findOne({
       where: {
-        id: createRecomment.commentId,
+        id: updateComment.commentId,
+        author: user,
       },
     });
-    if (!parentComment) {
+    if (!comment) {
       throw new BadRequestException(['commentId의 값이 잘못되었습니다.']);
     }
-    const comment: Comments = this.commentRepository.create({
-      content: createRecomment.content,
+    await this.commentRepository.update(updateComment.commentId, {
+      content: updateComment.content,
     });
-    comment.post = post;
-    comment.author = user;
-    comment.parentComment = parentComment;
-    return await this.commentRepository.save(comment);
+    return await this.commentRepository.findOne({
+      where: { id: updateComment.commentId },
+    });
+  }
+
+  async deleteComment(commentId: number, user: User): Promise<boolean> {
+    const comment: Comments = await this.commentRepository.findOne({
+      where: {
+        id: commentId,
+        author: user,
+      },
+    });
+    if (!comment) {
+      throw new BadRequestException(['commentId의 값이 잘못되었습니다.']);
+    }
+    const result: DeleteResult = await this.commentRepository.delete(commentId);
+    if (result.affected) {
+      return true;
+    }
+    return false;
   }
 }

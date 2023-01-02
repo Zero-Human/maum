@@ -8,9 +8,7 @@ import {
   Logger,
   LoggerService,
 } from '@nestjs/common';
-import { GqlArgumentsHost, GqlExceptionFilter } from '@nestjs/graphql';
-import { Request, Response } from 'express';
-import { GraphQLResolveInfo } from 'graphql';
+import { GqlExceptionFilter } from '@nestjs/graphql';
 
 @Catch()
 export class AllExceptionFiller implements ExceptionFilter, GqlExceptionFilter {
