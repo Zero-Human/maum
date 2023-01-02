@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entity/user.entity';
-import { DeleteResult, ILike, Repository } from 'typeorm';
+import { DeleteResult, ILike, IsNull, Repository } from 'typeorm';
 import { CreatePost } from './dto/create-post.dto';
 import { Posts } from './entity/posts.entity';
 
@@ -19,9 +19,18 @@ export class PostsService {
 
   async findPost(postId: number): Promise<Posts> {
     const post: Posts = await this.postRepository.findOne({
-      where: { id: postId },
       relations: {
         author: true,
+        comments: {
+          author: true,
+          childComments: true,
+        },
+      },
+      where: {
+        id: postId,
+        comments: {
+          parentComment: IsNull(),
+        },
       },
     });
     if (!post) {
@@ -34,9 +43,16 @@ export class PostsService {
     return await this.postRepository.find({
       where: {
         title: ILike(`%${postTitle}%`),
+        comments: {
+          parentComment: IsNull(),
+        },
       },
       relations: {
         author: true,
+        comments: {
+          author: true,
+          childComments: true,
+        },
       },
     });
   }
@@ -60,9 +76,18 @@ export class PostsService {
 
   async findPostsByUser(user: User): Promise<Posts[]> {
     return await this.postRepository.find({
-      where: { author: user },
+      where: {
+        author: user,
+        comments: {
+          parentComment: IsNull(),
+        },
+      },
       relations: {
         author: true,
+        comments: {
+          author: true,
+          childComments: true,
+        },
       },
     });
   }
