@@ -12,10 +12,7 @@ import { UserId } from 'src/common/decorator/user-id.decorator';
 @Resolver(() => User)
 export class UsersResolver {
   constructor(private readonly userService: UsersService) {}
-  @Query(() => Boolean)
-  test(): boolean {
-    return true;
-  }
+
   @Mutation(() => UserOutput)
   async signUp(@Args('input') createUser: CreateUser): Promise<UserOutput> {
     return await this.userService.createUser(createUser);
