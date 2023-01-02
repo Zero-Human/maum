@@ -2,7 +2,7 @@ import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 import { Comments } from 'src/comments/entity/comments.entity';
 import { UserOutput } from 'src/users/dto/user.dto';
-import { User } from 'src/users/entity/user.entity';
+import { User } from '../../users/entity/user.entity';
 import {
   Column,
   CreateDateColumn,

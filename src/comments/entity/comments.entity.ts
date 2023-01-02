@@ -1,7 +1,7 @@
 import { IsString } from 'class-validator';
-import { Posts } from 'src/posts/entity/posts.entity';
+import { Posts } from '../../posts/entity/posts.entity';
 import { UserOutput } from 'src/users/dto/user.dto';
-import { User } from 'src/users/entity/user.entity';
+import { User } from '../..//users/entity/user.entity';
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import {
   Column,
