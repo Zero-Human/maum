@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -25,7 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       where: { id },
     });
     if (!user) {
-      //TODO: error 발생
+      throw new UnauthorizedException(['다시 로그인해주세요']);
     }
     return user;
   }
