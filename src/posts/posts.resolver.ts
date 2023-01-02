@@ -4,6 +4,7 @@ import { AuthUser } from 'src/common/decorator/user.decorator';
 import { GqlAuthGuard } from 'src/common/guard/grapql.guard';
 import { User } from 'src/users/entity/user.entity';
 import { CreatePost } from './dto/create-post.dto';
+import { UpdatePost } from './dto/update-post.dto';
 import { Posts } from './entity/posts.entity';
 import { PostsService } from './posts.service';
 
@@ -40,5 +41,14 @@ export class PostsResolver {
     @AuthUser() user: User,
   ): Promise<boolean> {
     return await this.postService.deletePost(postId, user);
+  }
+
+  @Mutation(() => Posts)
+  @UseGuards(GqlAuthGuard)
+  async updatePost(
+    @Args('input') updatePost: UpdatePost,
+    @AuthUser() user: User,
+  ): Promise<Posts> {
+    return await this.postService.updatePost(updatePost, user);
   }
 }

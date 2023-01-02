@@ -4,7 +4,7 @@ import { Comments } from '../entity/comments.entity';
 
 @InputType()
 export class UpdateComment extends PickType(Comments, ['content']) {
-  @Field(() => Int, { nullable: true })
+  @Field(() => Int)
   @IsNumber()
-  commentId?: number;
+  commentId: number;
 }
