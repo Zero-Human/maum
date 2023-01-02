@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Posts } from 'src/posts/entity/posts.entity';
 import { PostsService } from 'src/posts/posts.service';
@@ -39,7 +39,7 @@ export class CommentsService {
       },
     });
     if (!parentComment) {
-      //TODO: error  발생
+      throw new BadRequestException('commentId의 값이 잘못되었습니다.');
     }
     const comment: Comments = this.commentRepository.create({
       content: createRecomment.content,

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entity/user.entity';
 import { DeleteResult, ILike, IsNull, Repository } from 'typeorm';
@@ -34,7 +34,7 @@ export class PostsService {
       },
     });
     if (!post) {
-      //TODO: error 발생
+      throw new BadRequestException('Post Id 값이 잘못되었습니다.');
     }
     return post;
   }
@@ -65,7 +65,7 @@ export class PostsService {
       },
     });
     if (!post) {
-      //TODO: error 발생
+      throw new BadRequestException('Post Id 값이 잘못되었습니다.');
     }
     const result: DeleteResult = await this.postRepository.delete(postId);
     if (result.affected) {
