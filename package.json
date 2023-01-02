@@ -36,13 +36,16 @@
     "graphql": "^15.8.0",
     "graphql-tools": "^8.3.14",
     "joi": "^17.7.0",
+    "nest-winston": "^1.8.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "type-graphql": "^1.1.1",
-    "typeorm": "^0.3.11"
+    "typeorm": "^0.3.11",
+    "winston": "^3.8.2",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
@@ -68,6 +71,9 @@
     "typescript": "^4.7.4"
   },
   "jest": {
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/$1"
+    },
     "moduleFileExtensions": [
       "js",
       "json",
