@@ -33,6 +33,14 @@
     - [x] 유닛테스트코드 작성
 
 ## 요구사항 구현
+### 사용 기술
+- typescript
+- node
+- nest.js
+- graphql
+- typeorm
+- postgresql
+- 그 외 다른 라이브러리 사
 
 ### 회원가입
 ```
