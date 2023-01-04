@@ -15,12 +15,27 @@ export class UsersService {
     private readonly jwtService: JwtService,
   ) {}
   async createUser(createUser: CreateUser): Promise<User> {
+    const email = await this.userRepository.findOne({
+      select: { email: true },
+      where: { email: createUser.email },
+    });
+    if (email) {
+      throw new BadRequestException(['email 값이 중복됩니다.']);
+    }
+    const nickname = await this.userRepository.findOne({
+      select: { nickname: true },
+      where: { nickname: createUser.nickname },
+    });
+    if (nickname) {
+      throw new BadRequestException(['nickname 값이 중복됩니다.']);
+    }
     const user = this.userRepository.create(createUser);
     return this.userRepository.save(user);
   }
   async signIn(signIn: SignInInput) {
     const { email, password } = signIn;
     const user = await this.userRepository.findOne({
+      select: { id: true, password: true, email: true, nickname: true },
       where: { email },
     });
     if (!user) {
