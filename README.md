@@ -40,7 +40,7 @@
 - graphql
 - typeorm
 - postgresql
-- 그 외 다른 라이브러리 사
+- 그 외 다른 라이브러리 사용
 
 ### 회원가입
 ```
