@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CreateUser } from './dto/create-user.dto';
 import { SignInInput } from './dto/signin.dto';
 import { UpdateUser } from './dto/update-user.dto';

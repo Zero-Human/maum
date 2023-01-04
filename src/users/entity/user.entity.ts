@@ -41,6 +41,6 @@ export class User {
   })
   nickname: string;
 
-  @OneToMany(() => Posts, (posts) => posts.author)
+  @OneToMany(() => Posts, (posts) => posts.author, { nullable: true })
   posts: Posts[];
 }
