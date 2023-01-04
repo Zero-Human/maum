@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CreateUser } from './dto/create-user.dto';
 import { SignInInput } from './dto/signin.dto';
 import { UpdateUser } from './dto/update-user.dto';
@@ -12,10 +12,7 @@ import { UserId } from 'src/common/decorator/user-id.decorator';
 @Resolver(() => User)
 export class UsersResolver {
   constructor(private readonly userService: UsersService) {}
-  @Query(() => Boolean)
-  test(): boolean {
-    return true;
-  }
+
   @Mutation(() => UserOutput)
   async signUp(@Args('input') createUser: CreateUser): Promise<UserOutput> {
     return await this.userService.createUser(createUser);

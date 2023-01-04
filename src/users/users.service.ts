@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
@@ -24,10 +24,10 @@ export class UsersService {
       where: { email },
     });
     if (!user) {
-      //TODO: error 발생
+      throw new BadRequestException(['email 값이 잘못되었습니다.']);
     }
     if (user.password !== password) {
-      //TODO: error 발생
+      throw new BadRequestException(['비밀번호 값이 잘못되었습니다.']);
     }
     const payload: Payload = {
       id: user.id,
@@ -41,7 +41,7 @@ export class UsersService {
         where: { email: updateUser.email },
       });
       if (user) {
-        //TODO: error 발생(email 중복)
+        throw new BadRequestException(['email 값이 중복됩니다.']);
       }
     }
     if (updateUser?.nickname) {
@@ -49,7 +49,7 @@ export class UsersService {
         where: { nickname: updateUser.nickname },
       });
       if (user) {
-        //TODO: error 발생(nickname 중복)
+        throw new BadRequestException(['nickname 값이 중복됩니다.']);
       }
     }
     await this.userRepository.update(userId, updateUser);

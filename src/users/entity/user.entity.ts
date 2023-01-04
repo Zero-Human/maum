@@ -6,7 +6,8 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Posts } from 'src/posts/entity/posts.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @InputType({ isAbstract: true })
 @ObjectType()
@@ -21,7 +22,7 @@ export class User {
   @IsEmail()
   email: string;
 
-  @Column()
+  @Column({ select: false })
   @Field(() => String)
   @IsString()
   @MinLength(6)
@@ -39,4 +40,7 @@ export class User {
     message: '닉네임은 영문과 숫자로만 구성되어야 합니다.',
   })
   nickname: string;
+
+  @OneToMany(() => Posts, (posts) => posts.author, { nullable: true })
+  posts: Posts[];
 }
