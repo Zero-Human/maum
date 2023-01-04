@@ -1,5 +1,5 @@
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-import { IsString } from 'class-validator';
+import { IsString, MaxLength } from 'class-validator';
 import { Comments } from 'src/comments/entity/comments.entity';
 import { UserOutput } from 'src/users/dto/user.dto';
 import { User } from '../../users/entity/user.entity';
@@ -22,12 +22,14 @@ export class Posts {
   id: number;
 
   @Column()
-  @Field(() => String)
+  @Field(() => String, { description: '최대 100자까지 가능합니다.' })
+  @MaxLength(100)
   @IsString()
   title: string;
 
   @Column()
-  @Field(() => String)
+  @Field(() => String, { description: '최대 1000자까지 가능합니다.' })
+  @MaxLength(1000)
   @IsString()
   content: string;
 
@@ -35,18 +37,18 @@ export class Posts {
     nullable: false,
     onDelete: 'CASCADE',
   })
-  @Field(() => UserOutput)
+  @Field(() => UserOutput, { description: '작성자 정보' })
   author: User;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  @Field(() => Date, { nullable: true })
+  @Field(() => Date, { nullable: true, description: '수정 시간' })
   updatedAt: Date;
 
   @CreateDateColumn({ name: 'created_at' })
-  @Field(() => Date)
+  @Field(() => Date, { description: '생성 시간' })
   createdAt: Date;
 
   @OneToMany(() => Comments, (comment) => comment.post)
-  @Field(() => [Comments], { nullable: true })
+  @Field(() => [Comments], { nullable: true, description: '댓글 정보' })
   comments: Comments[];
 }

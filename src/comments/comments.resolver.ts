@@ -12,7 +12,7 @@ import { Comments } from './entity/comments.entity';
 export class CommentsResolver {
   constructor(private readonly commentService: CommentsService) {}
 
-  @Mutation(() => Comments)
+  @Mutation(() => Comments, { description: '댓글 및 대댓글 생성 기능' })
   @UseGuards(GqlAuthGuard)
   async createComment(
     @Args('input') createComment: CreateComment,
@@ -21,7 +21,7 @@ export class CommentsResolver {
     return await this.commentService.createComment(createComment, user);
   }
 
-  @Mutation(() => Comments)
+  @Mutation(() => Comments, { description: '댓글 및 대댓글 수정 기능' })
   @UseGuards(GqlAuthGuard)
   async updateComment(
     @Args('input') updateComment: UpdateComment,
@@ -30,7 +30,7 @@ export class CommentsResolver {
     return await this.commentService.updateComment(updateComment, user);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Boolean, { description: '댓글 및 대댓글 삭제 기능' })
   @UseGuards(GqlAuthGuard)
   async deleteComment(
     @Args('commentId') CommentId: number,
