@@ -21,19 +21,15 @@ const dailyOptions = (level: string) => {
 export const winstonLogger = WinstonModule.createLogger({
   transports: [
     new winston.transports.Console({
-      level: env === 'product' ? 'http' : 'silly',
+      level: 'silly',
       // production 환경이라면 http, 개발환경이라면 모든 단계를 로그
-      format:
-        env === 'product'
-          ? // production 환경은 자원을 아끼기 위해 simple 포맷 사용
-            winston.format.simple()
-          : winston.format.combine(
-              winston.format.colorize(),
-              winston.format.timestamp(),
-              utilities.format.nestLike('maum', {
-                prettyPrint: true, // nest에서 제공하는 옵션. 로그 가독성을 높여줌
-              }),
-            ),
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.timestamp(),
+        utilities.format.nestLike('maum', {
+          prettyPrint: true, // nest에서 제공하는 옵션. 로그 가독성을 높여줌
+        }),
+      ),
     }),
 
     // info, warn, error 로그는 파일로 관리

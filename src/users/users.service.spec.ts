@@ -58,7 +58,21 @@ describe('UsersService', () => {
       password: 'password',
       nickname: 'nickname',
     };
+    spyReositroty.findOne = jest.fn();
+
     const result = await service.createUser(createUser);
+
+    expect(spyReositroty.findOne).toHaveBeenCalled();
+    expect(spyReositroty.findOne).toHaveBeenCalledWith({
+      select: { email: true },
+      where: { email: createUser.email },
+    });
+
+    expect(spyReositroty.findOne).toHaveBeenCalled();
+    expect(spyReositroty.findOne).toHaveBeenCalledWith({
+      select: { nickname: true },
+      where: { nickname: createUser.nickname },
+    });
 
     expect(spyReositroty.create).toHaveBeenCalled();
     expect(spyReositroty.create).toHaveBeenCalledWith(createUser);
@@ -81,6 +95,7 @@ describe('UsersService', () => {
 
     expect(spyReositroty.findOne).toHaveBeenCalled();
     expect(spyReositroty.findOne).toHaveBeenCalledWith({
+      select: { id: true, password: true, email: true, nickname: true },
       where: { email: signInInput.email },
     });
 
